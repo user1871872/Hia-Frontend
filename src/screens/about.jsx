@@ -15,24 +15,20 @@ export default function about() {
       >History</motion.h1>
 
       <motion.div id='history' className='m-10 items-center gap-10 sm:flex flex-row'
-        initial={{x: '-100vw' }}
-        animate={{ x: 0}}
+        initial={{ x: '-100vw' }}
+        animate={{ x: 0 }}
         transition={{ delay: 1, duration: 1.5 }}
-        whileInView={{opacity: 1, x: 1 }}
+        whileInView={{ opacity: 1, x: 1 }}
         viewport={{ once: true }}
       >
 
         <img className='w-[380px]' src='HIALogo.jpg' alt='' />
         <p className='font-light mt-10'>
+          Welcome to Holy Infant Academy of Anda Inc! , a premier private school dedicated to fostering academic excellence, character development, and lifelong learning. We offer a nurturing and challenging environment where students thrive intellectually, socially, and emotionally. Learn more about our rigorous curriculum, dedicated faculty, and vibrant community.
 
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc lorem elit, faucibus eget vestibulum imperdiet, finibus ac sapien. Praesent a est magna.
-          Curabitur sapien nibh, eleifend ut nisi sed, hendrerit tempus mauris. Vivamus vulputate justo lorem, vel eleifend nibh iaculis ut. Integer commodo eros diam,
-          et molestie metus sodales id. Sed faucibus consequat massa vel mollis. Donec condimentum purus pharetra ultrices tincidunt. Vivamus viverra, purus suscipit
-          convallis venenatis, lacus magna posuere eros, at cursus risus leo sit amet sem. Morbi tincidunt ac metus vitae vestibulum. Proin vitae mauris sed odio auctor
-          ultrices id a erat. Etiam tortor eros, fermentum id arcu vel, consectetur euismod lorem. Aliquam lacinia nunc ut sem consectetur, at blandit odio maximus. Nunc viverra cursus sollicitudin.
-          Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nunc ac volutpat nibh.
-          Curabitur ac cursus odio, ac facilisis lacus. Aliquam at euismod justo. Aenean in vestibulum nisi. Nam malesuada ut urna nec semper.
-          Nunc enim est, fringilla et commodo eu, convallis eu ipsum. Aenean a velit magna. Curabitur erat diam, dapibus eu auctor eu, tristique sit amet nisl.
+          As the only private school in Anda, Holy Infant Academy offers a unique educational experience rooted in our close-knit community. We integrate learning with local resources and opportunities, providing students with a distinct advantage and a strong sense of belonging. Our innovative approach to education fosters both academic excellence and a deep connection to our town.
+
+          Holy Infant Academy is proud of its high-achieving students who consistently demonstrate exceptional academic performance, creativity, and leadership skills. Our students are actively involved in a wide range of extracurricular activities, enriching their learning experience and developing well-rounded personalities. Our dedicated faculty are passionate educators committed to fostering intellectual curiosity and personal growth in each student. They bring a wealth of experience and expertise to the classroom, creating a supportive and challenging learning environment that inspires students to reach their full potential.
         </p>
       </motion.div>
     </div>
