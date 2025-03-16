@@ -1,92 +1,104 @@
-import React from 'react'
-import { useState } from 'react'
-import axios from 'axios'
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useState } from 'react';
+import axios from 'axios';
 
+const Register = () => {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [middleName, setMiddleName] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [role, setRole] = useState('');
 
-function Register() {
-
-    const [name, setname] = useState()
-    const [username, setUsername] = useState()
-    const [idnumber, setidNumber] = useState()
-    const [password, setPassword] = useState()
-
-    const [imagePreview, setImagepreview] = useState(null)
-    const [image, setImage] = useState("")
-
-    const validateImg = (e) => {
-        const file = e.target.files[0]
-        setImage(file)
-        setImagepreview(URL.createObjectURL(file))
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post('http://localhost:8080/api/auth/register', {
+        first_name: firstName,
+        last_name: lastName,
+        middle_name: middleName,
+        username,
+        password,
+        role
+      });
+      console.log(res.data.message);
+    } catch (error) {
+      console.error(error);
     }
-    const uploadImg = async () => {
+  };
 
-        const data = new FormData()
-        data.append('file', image)
-        data.append("upload_preset", "upload");
-
-        let res = await fetch("https://api.cloudinary.com/v1_1/dzdlxfeee/image/upload/",
-            {
-                method: 'POST',
-                body: data
-            })
-
-        const urlData = await res.json()
-        return urlData.url
-    }
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        let url = ""
-        if (image) {
-            url = await uploadImg(image)
-        } else {
-            url = null
-        }
-        await axios.post('http://localhost:8080/register/signUp', { image: url,username, name, idnumber, password })
-            .then(result => console.log(result))
-            .catch(err => console.log(err))
-        toast.success('Registered', {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-        });
-    }
-    return (
-        <div className='pt-[200px] pb-[60px] justify-center flex'>
-            <form onSubmit={handleSubmit} className='bg-blue-300 border rounded-md shadow-sm p-10 flex flex-col w-[25%] gap-1'>
-                <h1 className='text-2xl text-center'>Register</h1>
-                <label htmlFor='id'>ID:</label>
-                <input className='w-[75%] p-3 rounded-md mx-auto' type='text' name='id' autoComplete='off' required placeholder='enter your Id number'
-                    onChange={(event) => { setidNumber(event.target.value) }}
-                />
-                  <label htmlFor='name'>Name:</label>
-                <input className='w-[75%] p-3 rounded-md mx-auto' type='text' name='name' autoComplete='off' required placeholder='HIA - your name'
-                    onChange={(event) => { setname(event.target.value) }}
-                />
-                 <label htmlFor='id'>username:</label>
-                <input className='w-[75%] p-3 rounded-md mx-auto' type='text' name='id' autoComplete='off' required placeholder='enter your Id number'
-                    onChange={(event) => { setUsername(event.target.value) }}
-                />
-                <label htmlFor='password'>Password:</label>
-                <input className='w-[75%] p-3 rounded-md mx-auto' type='password' name='password' required placeholder='Enter your password'
-                    onChange={(event) => { setPassword(event.target.value) }}
-                />
-                <input type="file" onChange={validateImg} />
-                <label htmlFor='img' className='fileUpload'>
-                    <img className="mt-4 mx-auto" src={imagePreview || "HIALogo.jpg"} alt="" width='100px' height='100px' />
-                </label>
-                <button className='mt-5 border rounded-md bg-green-500 mx-auto p-2' type='submit'>Register</button>
-            </form>
-            <ToastContainer />
-        </div>
-    )
-}
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label className="block text-gray-700">First Name</label>
+            <input
+              type="text"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700">Last Name</label>
+            <input
+              type="text"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700">Middle Name</label>
+            <input
+              type="text"
+              value={middleName}
+              onChange={(e) => setMiddleName(e.target.value)}
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700">Username</label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700">Password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700">Role</label>
+            <select
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+            >
+              <option value="">Select Role</option>
+              <option value="student">Student</option>
+              <option value="admin">Admin</option>
+              <option value="staff">Staff</option>
+            </select>
+          </div>
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-300"
+          >
+            Register
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+};
 
 export default Register;

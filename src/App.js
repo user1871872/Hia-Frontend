@@ -8,17 +8,17 @@ import Faculty from './screens/admin/facultyStaff'
 // import Contact from './screens/contact'
 // import Academics from './screens/academics'
 // import About from './screens/about'
-import Login from './screens/admin/adminLogin'
+import Login from './screens/auth/login'
 import Register from './screens/admin/register'
-import Teacherlogin from './screens/teachers/teacherLogin'
 import Teacherdash from './screens/teachers/teacherDashboard'
-import Studentlogin from './screens/students/studentLogin'
 import Studentdash from './screens/students/studenDashboard'
 import Enrolledstudents from './screens/admin/enrollredStudents'
 import ClassRecord from './screens/teachers/classRecord'
 import Hymn from './screens/hymn'
 import MissionVision from './screens/missionVision'
 import Dashboard from './components/sidebar'
+import Logout from './screens/auth/logout';
+import ClassManagement from './screens/teachers/classRecord'
 export default function App() {
   return (
 
@@ -32,14 +32,13 @@ export default function App() {
         <Route path='academics' element={<Academics/>}/>
         <Route path='contact' element={<Contact/>}/> */}
         <Route path='login' element={<Login />} />
+        <Route path="/logout" element={<Logout />} />
         <Route path='/faculty' element={<Faculty />} />
         <Route path='/register' element={<Register />} />
         <Route path='/news' element={<Newsevent />} />
-        <Route path='/teacherlogin' element={<Teacherlogin />} />
-        <Route path='/teacherdashboard' element={<Teacherdash />} />
-        <Route path='/studentlogin' element={<Studentlogin />} />
-        <Route path='/studentdashboard' element={<Studentdash />} />
-        <Route path='/studentdashboard' element={<Studentdash />} />
+        <Route path='/staff-dashboard' element={<Teacherdash />} />
+        <Route path='/class-management' element={<ClassManagement />} />
+        <Route path='/student-dashboard' element={<Studentdash />} />
         <Route path='/record' element={<Enrolledstudents />} />
         <Route path='/classrecords' element={<ClassRecord />} />
         <Route path='/missionvision' element={<MissionVision />} />

@@ -20,11 +20,11 @@ export default function footer() {
 
         <div className='flex flex-col gap-5'>
           <p className='text-4xl font-bold'>Quick Links</p>
-          <Link to='/'><p onClick={() => scrolltoTop()}>Home</p></Link>
-          <Link to='missionvision'><p>Mission & Vision</p></Link>
-          <Link to='academics'><p>Academics</p></Link>
-          <Link to='Hiahymn'><p>Hia Hymm</p></Link>
-          <p>Terms & Conditions</p>
+          <Link to='/'><p onClick={() => scrolltoTop()} className='hover:underline text-white'>Home</p></Link>
+          <Link to='missionvision'><p className='hover:underline text-white'>Mission & Vision</p></Link>
+          <Link to='academics'><p className='hover:underline text-white'>Academics</p></Link>
+          <Link to='Hiahymn'><p className='hover:underline text-white'>Hia Hymm</p></Link>
+          <p className='hover:underline text-white'>Terms & Conditions</p>
         </div>
 
 

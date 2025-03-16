@@ -1,45 +1,122 @@
-import React from 'react'
-import axios from 'axios'
-import { useState } from 'react';
-export default function ClassRecord() {
+import React, { useState, useEffect } from 'react';
+import ClassController from './ClassManagement';
+import axios from 'axios';
 
-    const [classrecord, setclassRecord] = useState([]);
-    const [fullName, setfullName] = useState();
-    const [subject, setSubject] = useState();
-    const studentArray = [];
+const ClassManagement = () => {
+  const [className, setClassName] = useState('');
+  const [students, setStudents] = useState([]);
+  const [selectedStudents, setSelectedStudents] = useState([]);
+  const [classId, setClassId] = useState('');
+  const [error, setError] = useState('');
 
-    async function handleclassrecord(){
-        classrecord.map((student) => studentArray.push(student._id))
+  useEffect(() => {
+    const fetchStudents = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          setError('Unauthorized: No token provided');
+          return;
+        }
+        const res = await axios.get('http://localhost:8080/api/class/students', {
+          headers: { 'x-auth-token': token }
+        });
+        setStudents(res.data);
+      } catch (error) {
+        console.error(error);
+        setError('Failed to fetch students.');
+      }
+    };
 
-        const config = {
-            Headers: {'Content-type': 'application/json'}
-          }
-          axios.post('http://localhost:8080/classrecords',{
-            fullName,
-            subject,
-            item: JSON.stringify(studentArray)
-          },config)
-          setclassRecord([])
+    fetchStudents();
+  }, []);
+
+  const handleCreateClass = async (e) => {
+    e.preventDefault();
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setError('Unauthorized: No token provided');
+        return;
+      }
+      const res = await axios.post('http://localhost:8080/api/class/create', { className }, {
+        headers: { 'x-auth-token': token }
+      });
+      setClassId(res.data.classId);
+      alert('Class created successfully');
+    } catch (error) {
+      console.error(error);
+      setError('Failed to create class.');
     }
+  };
+
+  const handleAddStudents = async (e) => {
+    e.preventDefault();
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setError('Unauthorized: No token provided');
+        return;
+      }
+      await axios.post('http://localhost:8080/api/class/add-students', { classId, studentIds: selectedStudents }, {
+        headers: { 'x-auth-token': token }
+      });
+      alert('Students added successfully');
+    } catch (error) {
+      console.error(error);
+      setError('Failed to add students.');
+    }
+  };
+
+  const handleStudentSelection = (studentId) => {
+    setSelectedStudents(prevSelected =>
+      prevSelected.includes(studentId)
+        ? prevSelected.filter(id => id !== studentId)
+        : [...prevSelected, studentId]
+    );
+  };
 
   return (
-    <div className='pt-[100px]'>
-        <form className='border rounded-md shadow-md max-w-[580px] mx-auto mt-10'>
-       <div className='flex flex-col'>
-       <label htmlFor='name'>Full name</label>
-        <input className='border p-2 rounded' type='text' name='name' autoComplete='off' placeholder='' onChange={(event) => {setfullName(event.target.value)}}/>
-        <label htmlFor='name'>Subject</label>
-        <input className='border p-2 rounded' type='text' name='subject' autoComplete='off' placeholder='' onChange={(event) => {setSubject(event.target.value)}}/>
-       </div>
+    <div className="container mx-auto p-4 pt-16">
+      <h2 className="text-3xl font-bold mb-4">Class Management</h2>
+      <form onSubmit={handleCreateClass} className="mb-8">
+        <input
+          type="text"
+          placeholder="Enter Class Name"
+          value={className}
+          onChange={(e) => setClassName(e.target.value)}
+          className="border rounded px-4 py-2 mr-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          required
+        />
+        <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">Create Class</button>
+      </form>
+      {error && <p className="text-red-500">{error}</p>}
+      {classId && (
+        <form onSubmit={handleAddStudents}>
+          <h3 className="text-xl font-bold mb-4">Select Students to Add to Class</h3>
+          <ul className='pt-10'>
+            {students.map(student => (
+              <li key={student._id} className="mb-2">
+                <label className="flex items-center">
+                  <input
+                    type="checkbox"
+                    value={student._id}
+                    onChange={() => handleStudentSelection(student._id)}
+                    className="mr-2"
+                  />
+                  {student.firstname} {student.lastname}
+                </label>
+              </li>
+            ))}
+          </ul>
+          <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">Add Students</button>
         </form>
+      )}
 
-        {classrecord.map((e) => (
-          <div key={classrecord._id}>
-                {e.firstname}
-                {e.lastname}
-            </div>
-        ))}
-        <button className='bg-slate-300 rounded-md p-2' onClick={() => handleclassrecord()}></button>
+      <div>
+        <ClassController/>
+      </div>
     </div>
-  )
-}
+  );
+};
+
+export default ClassManagement;
